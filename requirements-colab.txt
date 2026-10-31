@@ -1,0 +1,8 @@
+# Extra packages for a Google Colab runtime. Colab already ships pandas, numpy,
+# seaborn, requests, openpyxl and nbformat; only missing or too-old packages are listed,
+# with minimum versions instead of pins so Colab's preinstalled stack is not replaced.
+hijridate==2.3.0
+convertdate>=2.4
+scipy>=1.15            # stats.bootstrap(rng=...)
+statsmodels>=0.14
+matplotlib>=3.10       # list of hatches in bar()

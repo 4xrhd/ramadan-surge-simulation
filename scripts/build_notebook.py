@@ -40,6 +40,29 @@ md(r"""
 
 # =============================================================================
 md("""
+## Running on Google Colab (optional)
+
+Why: the notebook also runs on a Colab runtime, for example from VS Code with the *Google Colab* extension (Select Kernel, then Colab). A Colab runtime cannot see your local folder, so the cell below clones the public project repository, installs the packages Colab lacks and moves into the project. On a local kernel it does nothing.
+""")
+code("""
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+REPO_URL = "https://github.com/4xrhd/ramadan-surge-simulation.git"
+IN_COLAB = "google.colab" in sys.modules or "COLAB_RELEASE_TAG" in os.environ
+
+if IN_COLAB and not any((p / "RUNLOG.md").exists() for p in [Path.cwd(), *Path.cwd().parents]):
+    target = Path("/content/ramadan-surge-simulation")
+    if not target.exists():
+        subprocess.run(["git", "clone", "--depth", "1", REPO_URL, str(target)], check=True)
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-r", str(target / "requirements-colab.txt")], check=True)
+    os.chdir(target / "outputs")
+print(f"Running on Colab: {IN_COLAB} | working directory: {Path.cwd()}")
+""")
+
+md("""
 ## 0 Setup and seed
 
 Why: the analysis must be reproducible. We fix the global seed to **42**, and every stochastic step (bootstrap, goodness-of-fit simulation, Monte Carlo) draws from its own generator derived from that seed and a stage label. The results therefore do not depend on the order in which cells are run. Helper functions that are reused (calendar, cleaning, decomposition, distribution fitting) live in `src/ramadan_surge.py` and are covered by unit tests in `tests/`.

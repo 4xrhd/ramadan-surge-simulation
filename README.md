@@ -48,6 +48,14 @@ scripts/run_notebook.sh                        # build, execute and export the n
 
 `run_notebook.sh` calls `.venv/bin/python -m nbconvert` directly so that the notebook runs in the project venv rather than a system Jupyter.
 
+## Running on Google Colab from VS Code
+
+1. Install the **Google Colab** extension (`google.colab`). VS Code suggests it when you open this folder, through `.vscode/extensions.json`; it also needs the Jupyter extension.
+2. Open `outputs/ramadan_surge_simulation.ipynb`, click **Select Kernel**, choose **Colab**, then **Auto Connect** (or pick a runtime), and sign in with Google.
+3. Run all cells. The first cell detects the Colab runtime, clones this repository into `/content/ramadan-surge-simulation`, installs `requirements-colab.txt` and moves into the project. On a local kernel it does nothing.
+
+Outputs (figures, `results.xlsx`, `REPORT.md`) are written on the Colab runtime under `/content/ramadan-surge-simulation/outputs/`, not to your local folder. Download them from there, or run locally with `scripts/run_notebook.sh`. Colab clones the version pushed to GitHub, so push local changes before running there.
+
 ## Status
 
 - Data download, quality gate, helper modules and unit tests are complete; all tests pass.
